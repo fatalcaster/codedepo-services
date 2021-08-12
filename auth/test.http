@@ -1,0 +1,17 @@
+POST http://localhost:3000/api/users/signin HTTP/1.1
+content-type: application/json
+
+{
+    "password": "Hemijska125"
+}
+
+###
+
+POST http://localhost:3000/api/users/signup/gfsdf HTTP/1.1
+content-type: application/json
+
+{
+    "username": "MicaBrat",
+    "email": "Tes@tes.com",
+    "password": "Hemijska12"
+}
