@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { Server, IncomingMessage, ServerResponse } from "http";
 import { ReplyType, RequestType } from "../common/types/types";
+import { currentUser } from "../middlewares/current-user";
 
 function currentUserRouter(
   app: FastifyInstance<Server, IncomingMessage, ServerResponse>,
@@ -8,10 +9,9 @@ function currentUserRouter(
   done: any
 ) {
   app.get(
-    "/api/users/currentuser",
-    async (_request: RequestType, reply: ReplyType) => {
-      console.log("Test");
-      reply.send({});
+    "/api/users/currentuser", {preHandler: currentUser},
+    async (request: RequestType, reply: ReplyType) => {
+     reply.send({currentUser: request.currentUser || null});
     }
   );
 

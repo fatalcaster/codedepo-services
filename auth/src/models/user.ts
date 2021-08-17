@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 interface UserProps {
   git_id: string;
   email: string;
-  password: string;
+  username: string;
 }
 
 const userSchema = new Schema<UserProps>({
@@ -15,11 +15,10 @@ const userSchema = new Schema<UserProps>({
     type: String,
     required: true,
   },
-  password: {
+  username: {
     type: String,
     required: true,
-  },
-});
+  }});
 
 const User = model<UserProps>("User", userSchema);
 

@@ -29,3 +29,18 @@ export type ValidationError = {
   msg: any;
   nestedErrors?: unknown[] | undefined;
 };
+
+
+export interface UserPayload {
+  id: string;
+  email: string;
+}
+
+declare module "fastify" {
+  interface Session {
+      jwt: string | null
+  }
+  interface FastifyRequest {
+    currentUser?: UserPayload
+  } 
+}

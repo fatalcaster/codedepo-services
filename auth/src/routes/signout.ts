@@ -9,8 +9,8 @@ function signOutRouter(
 ) {
   app.post(
     "/api/users/signout",
-    async (_request: RequestType, reply: ReplyType) => {
-      console.log("Test");
+    async (request: RequestType, reply: ReplyType) => {
+      request.session.jwt = null;
       reply.send({});
     }
   );

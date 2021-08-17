@@ -4,22 +4,23 @@ import { Server, IncomingMessage, ServerResponse } from "http";
 import { RequestValidationError } from "../common/errors/request-validation-error";
 import { ReplyType, ValidationError } from "../common/types/types";
 import { isEmail, isGithubUsername } from "../common/validation";
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
 import { User } from "../models/user";
-require("dotenv").config();
+
+dotenv.config();
 
 function githubRouter(
   app: FastifyInstance<Server, IncomingMessage, ServerResponse>,
   _options: any,
   done: any
 ) {
-  // const client_id = process.env.GITHUB_CLIENT_ID;
-  const client_id = "ff75b3e4d82513e62ec7";
+  const client_id = process.env.GITHUB_CLIENT_ID;
   // const cliend_secret = process.env.GITHUB_CLIENT_SECRET;
 
   app.get(
     "/api/users/get_token",
     async (_request: GithubTokenRequest, reply: ReplyType) => {
-      // const redirect = "http://auth-srv:3000/api/users/get_token/callback";
       const scope = "read:user,user:email";
       const url = `https://github.com/login/oauth/authorize?client_id=${client_id}&scope=${scope}`;
       reply.redirect(url);
@@ -37,17 +38,13 @@ function githubRouter(
 
       const verifiedData = verifyGithubData(data);
 
-      const existingUser = await User.findOne({ email: verifiedData.email });
+      const {user, userCreated} = await saveGithubData(verifiedData);
 
-      if (existingUser) {
-        console.log("User already exists");
-        reply.send({});
-      }
+      const userJwt = jwt.sign(user, process.env.JWT_KEY!);
 
-      const user = await saveGithubData(verifiedData);
-      console.log("Creating new User");
+      request.session.jwt = userJwt;
 
-      reply.status(201).send(user);
+      reply.status(userCreated ? 201 : 200).send(user);
     }
   );
 
@@ -55,13 +52,17 @@ function githubRouter(
 }
 
 async function saveGithubData(data: GithubData) {
-  const user = new User({
-    email: data.email,
-    git_id: data.git_id,
-    username: data.username,
-  });
-  await user.save();
-  return user;
+  const existingUser = await User.findOne({ email: data.email });
+  if(!existingUser) {
+    const user = new User({
+      email: data.email,
+      git_id: data.git_id,
+      username: data.username,
+    });
+    await user.save();
+    return {user: {id: user._id, git_id: user.git_id, email: user.email, username: user.username}, userCreated: true};
+  }
+  return {user: {id: existingUser._id, git_id: existingUser.git_id, email: existingUser.email, username: existingUser.username}, userCreated: false};
 }
 
 function verifyGithubData(data: GithubData | undefined): GithubData | never {

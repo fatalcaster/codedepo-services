@@ -4,7 +4,7 @@ import { ErrorSchema } from "./primitive-schemas";
 export const signUpOpts: FastifySchema = {
   body: {
     type: "object",
-    required: ["username", "email", "password"],
+    required: ["username", "email"],
     properties: {
       username: {
         type: "string",
