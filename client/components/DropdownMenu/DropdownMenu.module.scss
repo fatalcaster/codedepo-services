@@ -1,0 +1,8 @@
+@use "./../../styles/abstract/colors";
+
+.container {
+  position: absolute;
+  width: 5em;
+  height: 4em;
+  background-color: colors.$dark-900;
+}

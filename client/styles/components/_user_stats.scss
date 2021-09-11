@@ -1,0 +1,21 @@
+@use './../abstract/colors';
+@use './../abstract/breakpoints';
+@use './../base/base';
+.user-stats {
+    display: none;
+
+    @include breakpoints.wide {
+        @include base.default-box;
+        display: flex;
+        background-color: colors.$dark-800;
+        max-width: 24em;
+        width: max(90%, 15em);
+        height: 30em;
+    }
+    @include breakpoints.desktop-only {
+        display: flex;
+        width: 15em;
+        height: 30em;
+        background-color: red;
+    }
+}

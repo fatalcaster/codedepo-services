@@ -1,0 +1,36 @@
+@use "./../../styles/abstract/colors";
+@use './../../styles/base/base';
+
+.container {
+  @extend %flex-vh-centered;
+  width: 15em;
+  background-color: colors.$dark-900;
+  border: colors.$accent-500 0.125em dashed;
+  color: colors.$light-800;
+  position: relative;
+}
+
+.close {
+  @extend %flex-vh-centered;
+  position: absolute;
+  top: -0.5em;
+  left: -0.5em;
+  border-radius: 50%;
+  color: colors.$light-800;
+  width: 1em;
+  height: 1em;
+  img {
+    width: 1em;
+    height: 1em;
+  }
+  :hover {
+    cursor: pointer;
+  }
+}
+
+.errorContainer {
+  position: absolute;
+  right: 3em;
+  bottom: 3em;
+  z-index: 100;
+}

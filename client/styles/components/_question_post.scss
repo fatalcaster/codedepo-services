@@ -1,0 +1,79 @@
+@use "./../abstract/colors";
+@use "./../abstract/breakpoints";
+@use "./../base/base";
+.question {
+    @include base.default-box;
+    max-width: 34em;
+    cursor: pointer;
+    width: 90vw;
+    background-color: colors.$dark-800;
+    height: 12em;
+    padding: 0.5em;
+    display: flex;
+    flex-direction: row;
+    @include breakpoints.not-mobile {
+        padding: 1em;
+    }
+    @include breakpoints.desktop {
+        width: 34em;
+    }
+}
+
+.question:hover {
+    border-image: -webkit-linear-gradient(
+            80deg,
+            transparent,
+            transparent,
+            transparent,
+            rgba(colors.$accent-500, 0.2)
+        )
+        1;
+}
+.question-info {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    min-width: 5em;
+    height: 100%;
+    background-color: colors.$dark-900;
+}
+
+.prize-info {
+    padding-top: 30%;
+    height: 40%;
+    text-align: center;
+    line-height: 0.5rem;
+    h1 {
+        font-weight: 500;
+        color: colors.$accent-500;
+    }
+    p {
+        color: colors.$dark-800;
+    }
+}
+
+.visitors-info {
+    color: colors.$light-800;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.question-details {
+    height: 100%;
+    width: 100%;
+    margin: 0 0.9em 0 0.9em;
+    padding: 0;
+    h1 {
+        font-size: 1.1rem;
+        color: colors.$light-900;
+        font-weight: 400;
+        margin: 0;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        @include breakpoints.not-mobile {
+            font-size: 1.3rem;
+        }
+    }
+}

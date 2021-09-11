@@ -1,7 +1,6 @@
-import { FastifyInstance } from "fastify";
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { Server, IncomingMessage, ServerResponse } from "http";
-import { ReplyType, RequestType } from "../common/types/types";
-import { currentUser } from "../middlewares/current-user";
+import { currentUser } from "@milovicvtickets/common";
 
 function currentUserRouter(
   app: FastifyInstance<Server, IncomingMessage, ServerResponse>,
@@ -9,13 +8,17 @@ function currentUserRouter(
   done: any
 ) {
   app.get(
-    "/api/users/currentuser", {preHandler: currentUser},
-    async (request: RequestType, reply: ReplyType) => {
-     reply.send({currentUser: request.currentUser || null});
+    "/api/users/currentuser",
+    { preHandler: currentUser },
+    async (
+      request: FastifyRequest & { currentUser: any },
+      reply: FastifyReply
+    ) => {
+      reply.send({ currentUser: request.currentUser || null });
     }
   );
 
   done();
 }
 
-module.exports = currentUserRouter;
+export { currentUserRouter };

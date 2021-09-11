@@ -1,0 +1,42 @@
+@use './../abstract/colors' as colors;
+
+%flex-vh-centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+%flex-v-centered {
+  display: flex;
+  align-items: center;
+}
+
+%flex-h-centered {
+  display: flex;
+  justify-content: center;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin default-box {
+  box-shadow: 0px 15px 12px 0px rgba(0, 0, 0, 0.2),
+    0px 19px 38px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 1px;
+  border: 0.5px double rgba(colors.$light-900, 0.2);
+  border-image: -webkit-linear-gradient(
+      80deg,
+      transparent,
+      transparent,
+      transparent,
+      rgba(colors.$light-900, 0.2)
+    )
+    1;
+}

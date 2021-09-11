@@ -1,0 +1,16 @@
+@use './../abstract/colors';
+@use './../base/base';
+
+%accept-button {
+    background-color: colors.$accent-500;
+    color: colors.$light-900;
+    font-weight: 800;
+}
+
+.get-the-answer {
+    @extend %accept-button;
+    @extend %flex-vh-centered;
+    padding: 0.7em;
+    width: 10em;
+    font-size: 1.1rem;
+}

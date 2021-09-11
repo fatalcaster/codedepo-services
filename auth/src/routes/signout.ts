@@ -1,6 +1,5 @@
-import { FastifyInstance } from "fastify";
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { Server, IncomingMessage, ServerResponse } from "http";
-import { RequestType, ReplyType } from "../common/types/types";
 
 function signOutRouter(
   app: FastifyInstance<Server, IncomingMessage, ServerResponse>,
@@ -9,8 +8,9 @@ function signOutRouter(
 ) {
   app.post(
     "/api/users/signout",
-    async (request: RequestType, reply: ReplyType) => {
-      request.session.jwt = null;
+    async (_request: FastifyRequest, reply: FastifyReply) => {
+      reply.clearCookie("refresh_token", { path: "/" });
+      reply.clearCookie("access_token", { path: "/" });
       reply.send({});
     }
   );
@@ -18,4 +18,4 @@ function signOutRouter(
   done();
 }
 
-module.exports = signOutRouter;
+export { signOutRouter };
